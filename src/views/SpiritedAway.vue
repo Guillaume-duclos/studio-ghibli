@@ -49,6 +49,9 @@ import Button from '../components/Button.vue';
 </script>
 
 <style scoped lang="sass">
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap')
+
 .spirited-away
   display: flex
   flex-direction: column
@@ -136,12 +139,13 @@ import Button from '../components/Button.vue';
 
         .movie-creation-date, .movie-title
           margin: 0
+          font-family: 'Cormorant Garamond', serif
 
         .movie-creation-date
-          font-size: 25px
+          font-size: 36px
 
         .movie-title
-          margin-top: 20px
+          margin-top: 16px
           font-size: 120px
           line-height: 120px
           font-weight: 500
@@ -150,6 +154,7 @@ import Button from '../components/Button.vue';
           display: flex
           gap: 50px
           margin-top: 50px
+          font-family: 'Nunito', sans-serif
 
     .movie-character-container
       border: 0px solid red
@@ -168,6 +173,7 @@ import Button from '../components/Button.vue';
 
       .movie-description, .movie-author
         margin: 0
+        font-family: 'Nunito', sans-serif
 
       .movie-description
         max-width: 350px
@@ -190,6 +196,7 @@ import Button from '../components/Button.vue';
       padding: 0
       border: none
       background: none
+      font-family: 'Nunito', sans-serif
 
       &:after
         content: ''

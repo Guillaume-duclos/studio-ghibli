@@ -13,14 +13,18 @@ const props = defineProps({
 </script>
 
 <style scoped lang="sass">
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap')
+
 .button
   display: flex
   align-items: center
-  padding: 14px 24px
+  padding: 10px 24px
   border: none
   background: #FFFFFF
   border-radius: 3px
   text-transform: uppercase
+  font-family: 'Nunito', sans-serif
+  font-weight: 600
 
   img
     width: 12px
