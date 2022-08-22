@@ -1,7 +1,7 @@
 <template>
   <button class="button">
     <img :src="`src/assets/icons/${iconName}.svg`" alt="Icon" />
-    {{ label }}
+    <p>{{ label }}</p>
   </button>
 </template>
 
@@ -18,7 +18,8 @@ const props = defineProps({
 .button
   display: flex
   align-items: center
-  padding: 10px 24px
+  padding: 14px 22px
+  height: fit-content
   border: none
   background: #FFFFFF
   border-radius: 3px
@@ -29,5 +30,10 @@ const props = defineProps({
   img
     width: 12px
     margin-right: 10px
+
+  p
+    margin: 0
+    height: 20px
+    line-height: 22px
 
 </style>

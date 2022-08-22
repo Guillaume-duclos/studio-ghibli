@@ -85,6 +85,8 @@ import Button from '../components/Button.vue';
 
     p
       margin: 0
+      font-family: 'Cormorant Garamond', sans-serif
+      font-size: 28px
 
     button
       position: relative
@@ -197,42 +199,57 @@ import Button from '../components/Button.vue';
       border: none
       background: none
       font-family: 'Nunito', sans-serif
+      font-size: 14px
+      overflow: hidden
 
       &:after
         content: ''
         position: absolute
         top: 0
         bottom: 0
-        left: 0
-        right: 0
-        width: 0
         z-index: -1
         background: rgba(#FFFFFF, .6)
         transform: rotate(180deg)
+        transition: .3s ease-in-out
+
+      &:first-child:after, &:last-child:after
+        width: calc(36px + 5px)
 
       &:first-child:after
-        left: 36px
+        left: -5px
+
+      &:last-child:after
+        right: -5px
 
       &:hover:after
-        width: calc(100% - 36px)
+        width: calc(100% + 5px)
         transition: all .3s ease-in-out
+
+      &:hover:first-child img
+        margin-right: 2px
+        transition: margin-right .3s ease-in-out
+
+      &:hover:last-child img
+        margin-left: 2px
+        transition: margin-left .3s ease-in-out
 
       img
         width: 16px
         height: 16px
         padding: 10px
-        background: rgba(#FFFFFF, .6)
 
       &:first-child
         padding-right: 10px
 
         img
           margin-right: 12px
+          transition: margin-right .3s ease-in-out
 
       &:last-child
         padding-left: 10px
 
         img
           margin-left: 12px
+          transition: margin-left .3s ease-in-out
 
 </style>
