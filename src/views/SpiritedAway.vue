@@ -2,13 +2,6 @@
   <section class="spirited-away">
     <div class="overlay"/>
 
-    <nav>
-      <p>Studio Ghibli</p>
-      <button>
-        <span />
-      </button>
-    </nav>
-
     <main>
       <div class="movie-content-container movie-title-container">
         <div class="movie-title-content">
@@ -30,17 +23,6 @@
         <p class="movie-author"><span>Director:</span> Hayao Miyazaki</p>
       </div>
     </main>
-
-    <footer>
-      <button>
-        <img src="../assets/icons/arrow-left.svg" alt="Arrow left" />
-        My Neightbour Totoro
-      </button>
-      <button>
-        Castle In The Sky
-        <img src="../assets/icons/arrow-right.svg" alt="Arrow right" />
-      </button>
-    </footer>
   </section>
 </template>
 
@@ -77,46 +59,6 @@ import Button from '../components/Button.vue';
     inset: 0
     background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(#E8615E, .5) 50%)
     z-index: -1
-
-  nav
-    display: flex
-    justify-content: space-between
-    border: 0px solid
-
-    p
-      margin: 0
-      font-family: 'Cormorant Garamond', sans-serif
-      font-size: 28px
-
-    button
-      position: relative
-      width: 25px
-      height: 21px
-      padding: 0
-      border: 0px solid
-      background: none
-
-      span
-        display: block
-        width: 100%
-        height: 3px
-        border-radius: 2px
-        background-color: #000000
-
-        &:before, &:after
-          content: ''
-          position: absolute
-          left: 0
-          width: 100%
-          height: 3px
-          border-radius: 2px
-          background-color: #000000
-
-        &:before
-          top: 0
-
-        &:after
-          bottom: 0
 
   main
     display: flex
@@ -185,71 +127,5 @@ import Button from '../components/Button.vue';
 
         span
           font-weight: 700
-
-  footer
-    display: flex
-    justify-content: space-between
-    border: 0px solid red
-
-    button
-      position: relative
-      display: flex
-      align-items: center
-      padding: 0
-      border: none
-      background: none
-      font-family: 'Nunito', sans-serif
-      font-size: 14px
-      overflow: hidden
-
-      &:after
-        content: ''
-        position: absolute
-        top: 0
-        bottom: 0
-        z-index: -1
-        background: rgba(#FFFFFF, .6)
-        transform: rotate(180deg)
-        transition: .3s ease-in-out
-
-      &:first-child:after, &:last-child:after
-        width: calc(36px + 5px)
-
-      &:first-child:after
-        left: -5px
-
-      &:last-child:after
-        right: -5px
-
-      &:hover:after
-        width: calc(100% + 5px)
-        transition: all .3s ease-in-out
-
-      &:hover:first-child img
-        margin-right: 2px
-        transition: margin-right .3s ease-in-out
-
-      &:hover:last-child img
-        margin-left: 2px
-        transition: margin-left .3s ease-in-out
-
-      img
-        width: 16px
-        height: 16px
-        padding: 10px
-
-      &:first-child
-        padding-right: 10px
-
-        img
-          margin-right: 12px
-          transition: margin-right .3s ease-in-out
-
-      &:last-child
-        padding-left: 10px
-
-        img
-          margin-left: 12px
-          transition: margin-left .3s ease-in-out
 
 </style>
