@@ -16,6 +16,7 @@ const props = defineProps({
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap')
 
 .button
+  position: relative
   display: flex
   align-items: center
   padding: 14px 22px
@@ -27,6 +28,19 @@ const props = defineProps({
   font-family: 'Nunito', sans-serif
   font-weight: 600
 
+  &:after
+    content: ''
+    position: absolute
+    inset: 0
+    display: block
+    border-radius: 3px
+    box-shadow: 0 0 3px 0 rgba(#FFFFFF, 1)
+    transition: opacity .2s ease-in-out
+    opacity: 0
+
+  &:hover:after
+    opacity: 1
+
   img
     width: 12px
     margin-right: 10px
@@ -35,5 +49,6 @@ const props = defineProps({
     margin: 0
     height: 20px
     line-height: 22px
+    font-size: 14px
 
 </style>

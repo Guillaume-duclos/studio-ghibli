@@ -1,34 +1,75 @@
 <template>
   <header>
     <p>Studio Ghibli</p>
+
     <button @click="toggleShowingMenu">
       <span :class="{ 'open': showMenu }" />
     </button>
+
+    <ul ref="menu">
+      <li
+        v-for="(item, index) in menuContent"
+        :key="`item-menu-${index}`"
+        class="menu-item"
+        :class="`menu-item-${index}`"
+      >
+        {{ item.label }}
+      </li>
+    </ul>
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { gsap } from 'gsap';
+import { CustomEase } from 'gsap/CustomEase';
 
 const emit = defineEmits(['showMenu']);
 
 const showMenu = ref(false);
+const menu = ref('menu');
+const menuContent = ref([
+  { label: 'Home', isActive: false },
+  { label: 'Spirited Away', isActive: false },
+  { label: 'Castel In The Sky', isActive: false },
+  { label: 'Princess Mononoke', isActive: false },
+  { label: 'Credit', isActive: false },
+]);
 
 const toggleShowingMenu = () => {
   showMenu.value = !showMenu.value;
   emit('showMenu', showMenu.value);
+
+  const timeline = gsap.timeline({});
+
+  if (showMenu.value) {
+    menuContent.value.forEach((item, index) => {
+      timeline.to(`.menu-item-${index}`, {
+        scale: 1,
+        opacity: 1,
+        duration: .15,
+        ease: 'power3.inOut'
+      });
+    });
+  } else {
+    timeline.to('.menu-item', {
+      scale: .97,
+      opacity: 0,
+      duration: .2,
+      ease: 'power3.inOut'
+    });
+  }
 }
 </script>
 
 <style scoped lang="sass">
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap')
 
 header
   display: flex
   align-items: center
   justify-content: space-between
   z-index: 10
-  border: 0px solid
 
   p
     margin: 0
@@ -110,5 +151,31 @@ header
         transform: rotate(-45deg)
       to
         transform: rotate(0)
+
+  ul
+    display: flex
+    flex-direction: column
+    justify-content: center
+    gap: 36px
+    position: fixed
+    top: 90px
+    right: 0
+    bottom: 106px
+    width: 25%
+    margin: 0
+    padding: 0
+    list-style-type: none
+    border: 0px solid red
+
+    li
+      font-family: 'Cormorant Garamond', sans-serif
+      font-size: 28px
+      opacity: 0
+      margin-top: 0
+      transform: scale(.97)
+      transition: .3s cubic-bezier(.8, 0, .25, 1)
+      transform-origin: 0 0
+      border: 0px solid
+      cursor: pointer
 
 </style>
