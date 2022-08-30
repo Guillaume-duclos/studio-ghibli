@@ -42,6 +42,51 @@ onMounted(() => {
 
 watch(() => props.showingMenu, (value) => {
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
+  const backgroundGradient2 = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(232, 97, 94, .5) 0%)';
+
+  if (value) {
+    gsap.to('.spirited-away-content', {
+      opacity: 0,
+      duration: .3,
+      ease: 'power3.inOut'
+    });
+
+    gsap.fromTo(
+      '.overlay',
+      {
+        background: backgroundGradient1,
+      },
+      {
+        background: backgroundGradient2,
+        delay: .3,
+        duration: .6,
+        ease: 'power3.inOut'
+      }
+    );
+  } else {
+    gsap.fromTo(
+      '.overlay',
+      {
+        background: backgroundGradient2,
+      },
+      {
+        background: backgroundGradient1,
+        duration: .6,
+        ease: 'power3.inOut'
+      }
+    );
+
+    gsap.to('.spirited-away-content', {
+      opacity: 1,
+      duration: .3,
+      delay: .6,
+      ease: 'power3.inOut'
+    });
+  }
+});
+
+/*watch(() => props.showingMenu, (value) => {
+  const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(65deg, rgba(0, 0, 0, 0) 29.95%, rgba(232, 97, 94, .5) 30%)';
 
   if (value) {
@@ -77,7 +122,7 @@ watch(() => props.showingMenu, (value) => {
       delay: .4
     });
   }
-});
+});*/
 </script>
 
 <style scoped lang="sass">

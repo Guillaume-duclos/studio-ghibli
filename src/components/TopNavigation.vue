@@ -33,6 +33,11 @@ const menuContent = ref([
   { label: 'Spirited Away', isActive: false },
   { label: 'Castel In The Sky', isActive: false },
   { label: 'Princess Mononoke', isActive: false },
+  { label: 'Princess Mononoke 1', isActive: false },
+  { label: 'Princess Mononoke 2', isActive: false },
+  { label: 'Princess Mononoke 3', isActive: false },
+  { label: 'Princess Mononoke 4', isActive: false },
+  { label: 'Princess Mononoke 5', isActive: false },
   { label: 'Credit', isActive: false },
 ]);
 
@@ -153,19 +158,21 @@ header
         transform: rotate(0)
 
   ul
-    display: flex
-    flex-direction: column
-    justify-content: center
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-auto-rows: 36px
+    grid-auto-columns: auto
     gap: 36px
     position: fixed
     top: 90px
+    left: 10%
     right: 0
     bottom: 106px
-    width: 25%
+    width: calc(100% - 10%)
     margin: 0
     padding: 0
     list-style-type: none
-    border: 0px solid red
+    border: 1px solid red
 
     li
       font-family: 'Cormorant Garamond', sans-serif
