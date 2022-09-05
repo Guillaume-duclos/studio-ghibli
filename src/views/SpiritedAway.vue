@@ -47,6 +47,7 @@ watch(() => props.showingMenu, (value) => {
   if (value) {
     gsap.to('.spirited-away-content', {
       opacity: 0,
+      scale: .98,
       duration: .3,
       ease: 'power3.inOut'
     });
@@ -78,6 +79,7 @@ watch(() => props.showingMenu, (value) => {
 
     gsap.to('.spirited-away-content', {
       opacity: 1,
+      scale: 1,
       duration: .3,
       delay: .6,
       ease: 'power3.inOut'

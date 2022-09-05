@@ -6,16 +6,18 @@
       <span :class="{ 'open': showMenu }" />
     </button>
 
-    <ul ref="menu">
-      <li
-        v-for="(item, index) in menuContent"
-        :key="`item-menu-${index}`"
-        class="menu-item"
-        :class="`menu-item-${index}`"
-      >
-        {{ item.label }}
-      </li>
-    </ul>
+    <nav class="menu" :class="{ 'menu-active': showMenu }">
+      <ul ref="menu">
+        <li
+          v-for="(item, index) in menuContent"
+          :key="`item-menu-${index}`"
+          class="menu-item"
+          :class="`menu-item-${index}`"
+        >
+          {{ item.label }}
+        </li>
+      </ul>
+    </nav>
   </header>
 </template>
 
@@ -50,16 +52,16 @@ const toggleShowingMenu = () => {
   if (showMenu.value) {
     menuContent.value.forEach((item, index) => {
       timeline.to(`.menu-item-${index}`, {
-        scale: 1,
         opacity: 1,
-        duration: .15,
+        scale: 1,
+        duration: .1,
         ease: 'power3.inOut'
       });
     });
   } else {
-    timeline.to('.menu-item', {
-      scale: .97,
+    gsap.to('.menu-item', {
       opacity: 0,
+      scale: .97,
       duration: .2,
       ease: 'power3.inOut'
     });
@@ -157,32 +159,42 @@ header
       to
         transform: rotate(0)
 
-  ul
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
-    grid-auto-rows: 36px
-    grid-auto-columns: auto
-    gap: 36px
+  .menu
     position: fixed
+    display: flex
+    visibility: hidden
+    align-items: center
     top: 90px
     left: 10%
     right: 0
     bottom: 106px
-    width: calc(100% - 10%)
-    margin: 0
-    padding: 0
-    list-style-type: none
-    border: 1px solid red
+    border: 0px solid red
 
-    li
-      font-family: 'Cormorant Garamond', sans-serif
-      font-size: 28px
-      opacity: 0
-      margin-top: 0
-      transform: scale(.97)
-      transition: .3s cubic-bezier(.8, 0, .25, 1)
-      transform-origin: 0 0
-      border: 0px solid
-      cursor: pointer
+    &.menu-active
+      visibility: visible
+
+    ul
+      display: grid
+      grid-template-rows: repeat(5, 1fr)
+      grid-auto-flow: column
+      grid-auto-rows: 36px
+      grid-auto-columns: auto
+      grid-row-gap: 36px
+      grid-column-gap: 180px
+      margin: 0
+      padding: 0
+      list-style-type: none
+      border: 0px solid red
+
+      li
+        font-family: 'Cormorant Garamond', sans-serif
+        font-size: 28px
+        opacity: 0
+        margin-top: 0
+        transform: scale(.97)
+        transition: .3s cubic-bezier(.8, 0, .25, 1)
+        transform-origin: 0 0
+        border: 0px solid
+        cursor: pointer
 
 </style>
