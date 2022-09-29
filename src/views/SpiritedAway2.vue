@@ -1,12 +1,12 @@
 <template>
-  <section class="spirited-away">
+  <section class="spirited-away2">
     <div class="overlay" />
 
-    <main class="spirited-away-content">
+    <main class="spirited-away2-content">
       <div class="movie-content-container movie-title-container">
         <div class="movie-title-content">
           <time class="movie-creation-date">2001</time>
-          <h1 class="movie-title">Spirited <br/>Away</h1>
+          <h1 class="movie-title">Spirited <br/>Away 2</h1>
           <div class="movie-button-container">
             <Button label="Watch trailer" iconName="play" />
             <a class="imdb-link" href="">IMDB</a>
@@ -27,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
+import Button from '../components/Button.vue';
 import { gsap } from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import Button from '../components/Button.vue';
 
 const route = useRoute();
 
@@ -43,7 +43,6 @@ onMounted(() => {
   gsap.registerPlugin(CustomEase);
 });
 
-// À l'affichage du menu
 watch(() => props.showingMenu, (value) => {
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(232, 97, 94, .5) 0%)';
@@ -93,12 +92,12 @@ watch(() => props.showingMenu, (value) => {
 
 // Au changement de page
 /*watch(() => route.name, (value) => {
-  console.log('Update n°1 : ', value);
+  console.log('Update n°2 : ', value);
 
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(232, 97, 94, .5) 0%)';
 
-  gsap.to('.spirited-away-content', {
+  gsap.to('.spirited-away2-content', {
     opacity: 0,
     scale: .98,
     duration: .3,
@@ -118,7 +117,7 @@ watch(() => props.showingMenu, (value) => {
     }
   );
 
-  gsap.to('.spirited-away', {
+  gsap.to('.spirited-away2', {
     xPercent: -100,
     delay: .3,
     duration: .3,
@@ -131,7 +130,7 @@ watch(() => props.showingMenu, (value) => {
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap')
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap')
 
-.spirited-away
+.spirited-away2
   display: flex
   flex-direction: column
   justify-content: space-between
@@ -157,7 +156,7 @@ watch(() => props.showingMenu, (value) => {
     background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)
     z-index: -1
 
-  .spirited-away-content
+  .spirited-away2-content
     display: flex
     justify-content: space-between
     flex: 1

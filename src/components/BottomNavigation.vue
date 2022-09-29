@@ -1,10 +1,10 @@
 <template>
   <footer>
-    <button>
+    <button v-on:click="previousPage">
       <img src="../assets/icons/arrow-left.svg" alt="Arrow left" />
       My Neightbour Totoro
     </button>
-    <button>
+    <button v-on:click="nextPage">
       Castle In The Sky
       <img src="../assets/icons/arrow-right.svg" alt="Arrow right" />
     </button>
@@ -12,9 +12,19 @@
 </template>
 
 <script setup lang="ts">
+import router from '../router';
+
 const props = defineProps({
 
 })
+
+const previousPage = () => {
+  router.push('SpiritedAway');
+}
+
+const nextPage = () => {
+  router.push('SpiritedAway2');
+}
 </script>
 
 <style scoped lang="sass">

@@ -81,7 +81,7 @@ header
   p
     margin: 0
     font-family: 'Cormorant Garamond', sans-serif
-    font-size: 28px
+    font-size: 32px
 
   button
     position: relative
