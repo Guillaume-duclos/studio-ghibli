@@ -1,6 +1,9 @@
 <template>
   <header>
-    <p>Studio Ghibli</p>
+    <h1>
+      Studio Ghibli
+      <img src="../assets/icons/totoro.svg" alt="Totoro" />
+    </h1>
 
     <button @click="toggleShowingMenu">
       <span :class="{ 'open': showMenu }" />
@@ -78,10 +81,13 @@ header
   justify-content: space-between
   z-index: 10
 
-  p
+  h1
     margin: 0
     font-family: 'Cormorant Garamond', sans-serif
     font-size: 32px
+
+    img
+      width: 30px
 
   button
     position: relative

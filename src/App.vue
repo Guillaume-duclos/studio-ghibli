@@ -25,37 +25,52 @@ const update = (value: boolean) => {
 
 // Au changement de page
 watch(() => route.name, (value) => {
-  console.log('Update : ', value);
+  console.log('Go to', value);
 
-  const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
-  const backgroundGradient2 = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(232, 97, 94, .5) 0%)';
+  const backgroundGradient1 = 'linear-gradient(115deg, rgba(232, 97, 94, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
+  const backgroundGradient2 = 'linear-gradient(90deg, rgba(232, 97, 94, 0) 0%, rgba(232, 97, 94, .5) 0%)';
+  const backgroundGradient3 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 100%, rgba(232, 97, 94, 0) 100%)';
+  const backgroundGradient4 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 0%, rgba(232, 97, 94, 0) 0%)';
 
-  gsap.to('.spirited-away-content', {
-    opacity: 0,
-    scale: .98,
-    duration: .3,
-    ease: 'power3.inOut'
-  });
+  setTimeout(() => {
+    gsap.to('.slide-leave-active .spirited-away-content', {
+      opacity: 0,
+      scale: .98,
+      duration: .3,
+      ease: 'power3.inOut'
+    });
+  }, 50);
 
-  gsap.fromTo(
+  let timeline = gsap.timeline({ delay: .3 });
+
+  timeline.set('.overlay', { background: backgroundGradient1 })
+
+  timeline.to(
     '.overlay',
     {
-      background: backgroundGradient1,
-    },
-    {
       background: backgroundGradient2,
-      delay: .3,
       duration: .6,
       ease: 'power3.inOut'
     }
   );
 
-  gsap.to('.spirited-away', {
+  timeline.set('.overlay', { background: backgroundGradient3 })
+
+  timeline.to(
+    '.overlay',
+    {
+      background: backgroundGradient4,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );
+
+  /*gsap.to('.spirited-away', {
     xPercent: -100,
     delay: .3,
     duration: .3,
     ease: 'power3.inOut'
-  });
+  });*/
 });
 </script>
 
@@ -84,7 +99,7 @@ watch(() => route.name, (value) => {
   width: 100%
 
 .slide-enter-active, .slide-leave-active
-  transition: all 3s ease-out
+  transition: all 5s ease-out
 
 .slide-enter-to
   opacity: 1
