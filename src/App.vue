@@ -24,53 +24,65 @@ const update = (value: boolean) => {
 }
 
 // Au changement de page
-watch(() => route.name, (value) => {
-  console.log('Go to', value);
+watch(() => route.name, (newValue, oldValue) => {
+  console.log('Old', oldValue);
+  console.log('New', newValue);
 
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(232, 97, 94, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(90deg, rgba(232, 97, 94, 0) 0%, rgba(232, 97, 94, .5) 0%)';
   const backgroundGradient3 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 100%, rgba(232, 97, 94, 0) 100%)';
   const backgroundGradient4 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 0%, rgba(232, 97, 94, 0) 0%)';
 
-  setTimeout(() => {
-    gsap.to('.slide-leave-active .spirited-away-content', {
-      opacity: 0,
-      scale: .98,
-      duration: .3,
-      ease: 'power3.inOut'
-    });
-  }, 50);
+  if (oldValue) {
+    setTimeout(() => {
+      gsap.to('.slide-leave-active .spirited-away-content', {
+        opacity: 0,
+        scale: .98,
+        duration: .3,
+        ease: 'power3.inOut'
+      });
 
-  let timeline = gsap.timeline({ delay: .3 });
+      let timeline = gsap.timeline({ delay: .3 });
 
-  timeline.set('.overlay', { background: backgroundGradient1 })
+      timeline.set('.overlay', { background: backgroundGradient1 })
 
-  timeline.to(
-    '.overlay',
-    {
-      background: backgroundGradient2,
-      duration: .6,
-      ease: 'power3.inOut'
-    }
-  );
+      timeline.to(
+        '.overlay',
+        {
+          background: backgroundGradient2,
+          duration: .6,
+          ease: 'power3.inOut'
+        }
+      );
 
-  timeline.set('.overlay', { background: backgroundGradient3 })
+      timeline.set('.overlay', { background: backgroundGradient3 })
 
-  timeline.to(
-    '.overlay',
-    {
-      background: backgroundGradient4,
-      duration: .6,
-      ease: 'power3.inOut'
-    }
-  );
+      timeline.to(
+        '.overlay',
+        {
+          background: backgroundGradient4,
+          duration: .6,
+          ease: 'power3.inOut'
+        }
+      );
 
-  /*gsap.to('.spirited-away', {
-    xPercent: -100,
-    delay: .3,
-    duration: .3,
-    ease: 'power3.inOut'
-  });*/
+      timeline.to('.slide-leave-active', {
+          xPercent: -100,
+          duration: .6,
+          ease: 'power3.inOut'
+        },
+        '<'
+      );
+
+      timeline.to('.slide-enter-active', {
+          xPercent: -100,
+          duration: .6,
+          ease: 'power3.inOut'
+        },
+        '<'
+      );
+    }, 10);
+  }
 });
 </script>
 
@@ -95,11 +107,8 @@ watch(() => route.name, (value) => {
   padding: 35px 40px
   border: 0px solid
 
-.spirited-away
-  width: 100%
-
 .slide-enter-active, .slide-leave-active
-  transition: all 5s ease-out
+  transition: opacity 5s ease-out
 
 .slide-enter-to
   opacity: 1

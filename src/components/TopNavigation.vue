@@ -85,6 +85,7 @@ header
     margin: 0
     font-family: 'Cormorant Garamond', sans-serif
     font-size: 32px
+    color: #000
 
     img
       width: 30px

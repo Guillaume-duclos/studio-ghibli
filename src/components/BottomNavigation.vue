@@ -23,7 +23,7 @@ const previousPage = () => {
 }
 
 const nextPage = () => {
-  router.push('SpiritedAway2');
+  router.push('MyNeightbourTotoro');
 }
 </script>
 

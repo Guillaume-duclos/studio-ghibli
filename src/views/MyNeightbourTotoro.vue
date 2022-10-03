@@ -1,8 +1,8 @@
 <template>
-  <section class="spirited-away2">
+  <section class="my-neightbour-totoro">
     <div class="overlay" />
 
-    <main class="spirited-away2-content">
+    <main class="my-neightbour-totoro-content">
       <div class="movie-content-container movie-title-container">
         <div class="movie-title-content">
           <time class="movie-creation-date">2001</time>
@@ -130,7 +130,7 @@ watch(() => props.showingMenu, (value) => {
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap')
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap')
 
-.spirited-away2
+.my-neightbour-totoro
   display: flex
   flex-direction: column
   justify-content: space-between
@@ -146,17 +146,17 @@ watch(() => props.showingMenu, (value) => {
     inset: -10px
     z-index: -1
     display: block
-    background: url('../assets/images/spirited-away-landscape.jpeg') no-repeat center
+    background: url('../assets/images/totoro-landscape.jpg') no-repeat center
     background-size: cover
     filter: blur(6px)
 
   .overlay
     position: absolute
     inset: 0
-    background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)
+    background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(25, 25, 25, .5) 50%)
     z-index: -1
 
-  .spirited-away2-content
+  .my-neightbour-totoro-content
     display: flex
     justify-content: space-between
     flex: 1

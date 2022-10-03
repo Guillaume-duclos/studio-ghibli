@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import SpiritedAway from './views/SpiritedAway.vue';
-import SpiritedAway2 from './views/SpiritedAway2.vue';
+import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
 
 const routes = [
   {
@@ -15,9 +15,9 @@ const routes = [
     component: SpiritedAway
   },
   {
-    path: '/SpiritedAway2',
-    name: 'SpiritedAway2',
-    component: SpiritedAway2
+    path: '/MyNeightbourTotoro',
+    name: 'MyNeightbourTotoro',
+    component: MyNeightbourTotoro
   },
 ]
 
