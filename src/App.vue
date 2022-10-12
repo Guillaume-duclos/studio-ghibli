@@ -1,7 +1,7 @@
 <template>
   <TopNavigation class="top-navigation" @showMenu="update" />
   <router-view v-slot="{ Component }">
-    <transition name="slide">
+    <transition name="slide" v-on:enter="enter" v-on:leave="leave">
       <component :is="Component" :showingMenu="showingMenu" />
     </transition>
   </router-view>
@@ -23,66 +23,79 @@ const update = (value: boolean) => {
   showingMenu.value = value;
 }
 
-// Au changement de page
-watch(() => route.name, (newValue, oldValue) => {
-  console.log('Old', oldValue);
-  console.log('New', newValue);
+const enter = (element: any, done: any) => {
+  console.log(element);
 
+  element.style.position = 'absolute';
+  element.style.inset = 0;
+}
+
+const leave = (element: any, done: any) => {
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(232, 97, 94, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(90deg, rgba(232, 97, 94, 0) 0%, rgba(232, 97, 94, .5) 0%)';
   const backgroundGradient3 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 100%, rgba(232, 97, 94, 0) 100%)';
   const backgroundGradient4 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 0%, rgba(232, 97, 94, 0) 0%)';
 
-  if (oldValue) {
-    setTimeout(() => {
-      gsap.to('.slide-leave-active .spirited-away-content', {
-        opacity: 0,
-        scale: .98,
-        duration: .3,
-        ease: 'power3.inOut'
-      });
+  console.log(element.children[1]);
 
-      let timeline = gsap.timeline({ delay: .3 });
+  element.style.zIndex = 1;
 
-      timeline.set('.overlay', { background: backgroundGradient1 })
+  // On cache le personnage au 1er plan
+  gsap.to(element.children[1], {
+    opacity: 0,
+    scale: .98,
+    duration: .3,
+    ease: 'power3.inOut'
+  });
 
-      timeline.to(
-        '.overlay',
-        {
-          background: backgroundGradient2,
-          duration: .6,
-          ease: 'power3.inOut'
-        }
-      );
+  // On créer la timeline
+  let timeline = gsap.timeline({ delay: .3, onComplete: done });
 
-      timeline.set('.overlay', { background: backgroundGradient3 })
+  // On set l'overlay à son état de base
+  timeline.set(element.children[0], { background: backgroundGradient1 });
 
-      timeline.to(
-        '.overlay',
-        {
-          background: backgroundGradient4,
-          duration: .6,
-          ease: 'power3.inOut'
-        }
-      );
+  timeline.to(
+    element.children[0],
+    {
+      background: backgroundGradient2,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );
 
-      timeline.to('.slide-leave-active', {
-          xPercent: -100,
-          duration: .6,
-          ease: 'power3.inOut'
-        },
-        '<'
-      );
+  timeline.set(element.children[0], { background: backgroundGradient3 });
 
-      timeline.to('.slide-enter-active', {
-          xPercent: -100,
-          duration: .6,
-          ease: 'power3.inOut'
-        },
-        '<'
-      );
-    }, 10);
+  timeline.to(
+    element.children[0],
+    {
+      background: backgroundGradient4,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );
+
+  timeline.to(
+    element,
+    {
+      opacity: 0,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );
+}
+
+// Change le thème de couleur si besoin
+const updateColorScheme = () => {
+  if (route.meta.theme === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+  } else {
+    document.body.removeAttribute('data-theme');
   }
+};
+
+// Au changement de page
+watch(() => route.name, () => {
+  updateColorScheme();
 });
 </script>
 
@@ -106,34 +119,5 @@ watch(() => route.name, (newValue, oldValue) => {
   right: 0
   padding: 35px 40px
   border: 0px solid
-
-.slide-enter-active, .slide-leave-active
-  transition: opacity 5s ease-out
-
-.slide-enter-to
-  opacity: 1
-
-.slide-leave-to
-  opacity: 1
-
-// .slide-enter-active, .slide-leave-active
-  transition: all 5s ease-out
-  border: 2px solid red
-
-// .slide-enter-to
-  position: absolute
-  right: 0
-
-// .slide-enter-from
-  position: absolute
-  right: -100%
-
-// .slide-leave-to
-  position: absolute
-  left: -100%
-
-// .slide-leave-from
-  position: absolute
-  left: 0
 
 </style>

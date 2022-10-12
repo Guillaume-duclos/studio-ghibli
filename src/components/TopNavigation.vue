@@ -1,12 +1,9 @@
 <template>
   <header>
-    <h1>
-      Studio Ghibli
-      <img src="../assets/icons/totoro.svg" alt="Totoro" />
-    </h1>
+    <h1>Studio Ghibli <Totoro /></h1>
 
-    <button @click="toggleShowingMenu">
-      <span :class="{ 'open': showMenu }" />
+    <button @click="toggleShowingMenu" :class="{ activeMenu: showMenu}">
+      <span :class="{ open: showMenu }" />
     </button>
 
     <nav class="menu" :class="{ 'menu-active': showMenu }">
@@ -27,7 +24,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { gsap } from 'gsap';
-import { CustomEase } from 'gsap/CustomEase';
+import Totoro from './Totoro.vue';
 
 const emit = defineEmits(['showMenu']);
 
@@ -85,17 +82,18 @@ header
     margin: 0
     font-family: 'Cormorant Garamond', sans-serif
     font-size: 32px
-    color: #000
 
-    img
+    svg
       width: 30px
+      fill: var(--text)
+      transition: fill .3s ease-in-out
 
   button
     position: relative
     width: 25px
     height: 21px
     padding: 0
-    border: 0px solid
+    border: none
     background: none
 
     span
@@ -103,9 +101,8 @@ header
       width: 100%
       height: 3px
       border-radius: 2px
-      background-color: #000000
-      transition: background-color .2s cubic-bezier(.8, 0, .58, 1)
-      transition-delay: .2s
+      background-color: var(--text)
+      transition: background-color .3s ease-in-out
 
       &:before, &:after
         content: ''
@@ -114,18 +111,15 @@ header
         width: 100%
         height: 3px
         border-radius: 2px
-        background-color: #000000
+        background-color: var(--text)
+        transition: background-color .3s ease-in-out
 
       &:before
         top: 0
-        transition: top .2s cubic-bezier(.8, 0, .58, 1)
-        transition-delay: .2s
         animation: .2s ease-in forwards resetFirstElement
 
       &:after
         bottom: 0
-        transition: bottom .2s cubic-bezier(.8, 0, .58, 1)
-        transition-delay: .2s
         animation: .2s ease-in forwards resetLastElement
 
       &.open
@@ -141,6 +135,18 @@ header
           bottom: 9px
           transition-delay: 0s
           animation: .2s ease-in .2s forwards rotateLastElement
+
+    &.activeMenu
+
+      span
+
+        &:before
+          transition: top .2s cubic-bezier(.8, 0, .58, 1)
+          transition-delay: .2s
+
+        &:after
+          transition: bottom .2s cubic-bezier(.8, 0, .58, 1)
+          transition-delay: .2s
 
     @keyframes rotateFirstElement
       from

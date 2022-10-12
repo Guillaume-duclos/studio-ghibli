@@ -43,7 +43,7 @@ onMounted(() => {
   gsap.registerPlugin(CustomEase);
 });
 
-watch(() => props.showingMenu, (value) => {
+/*watch(() => props.showingMenu, (value) => {
   const backgroundGradient1 = 'linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
   const backgroundGradient2 = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(232, 97, 94, .5) 0%)';
 
@@ -88,7 +88,7 @@ watch(() => props.showingMenu, (value) => {
       ease: 'power3.inOut'
     });
   }
-});
+});*/
 
 // Au changement de page
 /*watch(() => route.name, (value) => {
@@ -198,7 +198,7 @@ watch(() => props.showingMenu, (value) => {
           .imdb-link
             margin: 0
             height: 20px
-            color: #000000
+            color: var(--text)
             line-height: 22px
             font-size: 14px
             text-decoration: none

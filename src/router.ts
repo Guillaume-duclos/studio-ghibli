@@ -2,22 +2,37 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import SpiritedAway from './views/SpiritedAway.vue';
 import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
+import Test from './views/Test.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: SpiritedAway
+    component: SpiritedAway,
+    meta: {
+      theme: 'light'
+    }
   },
   {
     path: '/SpiritedAway',
     name: 'SpiritedAway',
-    component: SpiritedAway
+    component: SpiritedAway,
+    meta: {
+      theme: 'light'
+    }
   },
   {
     path: '/MyNeightbourTotoro',
     name: 'MyNeightbourTotoro',
-    component: MyNeightbourTotoro
+    component: MyNeightbourTotoro,
+    meta: {
+      theme: 'dark'
+    }
+  },
+  {
+    path: '/Test',
+    name: 'Test',
+    component: Test,
   },
 ]
 

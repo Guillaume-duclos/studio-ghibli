@@ -1,6 +1,9 @@
 body
   margin: 0
   height: 100vh
+  color: var(--text)
+  fill: var(--text)
+  transition: color .3s ease-in-out
 
   #app
     position: relative
@@ -8,3 +11,9 @@ body
 
     button
       cursor: pointer
+
+\:root
+  --text: #000000
+
+[data-theme="dark"]
+  --text: #FFFFFF

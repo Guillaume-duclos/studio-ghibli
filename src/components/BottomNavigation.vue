@@ -2,10 +2,10 @@
   <footer>
     <button v-on:click="previousPage">
       <img src="../assets/icons/arrow-left.svg" alt="Arrow left" />
-      My Neightbour Totoro
+      <span>My Neightbour Totoro</span>
     </button>
     <button v-on:click="nextPage">
-      Castle In The Sky
+      <span>Castle In The Sky</span>
       <img src="../assets/icons/arrow-right.svg" alt="Arrow right" />
     </button>
   </footer>
@@ -30,10 +30,12 @@ const nextPage = () => {
 <style scoped lang="sass">
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap')
 
+[data-theme="dark"] footer span
+  mix-blend-mode: difference
+
 footer
   display: flex
   justify-content: space-between
-  border: 0px solid red
 
   button
     position: relative
@@ -45,13 +47,19 @@ footer
     font-family: 'Nunito', sans-serif
     font-size: 14px
     overflow: hidden
+    color: var(--text)
+    transition: color .3s ease-in-out
+    z-index: 2
+
+    span, img
+      z-index: 1
 
     &:after
       content: ''
       position: absolute
       top: 0
       bottom: 0
-      z-index: -1
+      z-index: 0
       background: rgba(#FFFFFF, .6)
       transform: rotate(180deg)
       transition: .35s cubic-bezier(.8, 0, .58, 1)
