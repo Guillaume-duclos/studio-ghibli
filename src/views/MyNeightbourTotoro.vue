@@ -1,6 +1,10 @@
 <template>
   <section class="my-neightbour-totoro">
-    <div class="overlay" />
+    <div class="my-neightbour-totoro-background"/>
+
+    <div class="my-neightbour-totoro-overlay">
+      <Overlay :screenWidth="width" :screenHeight="height" color="#191919"/>
+    </div>
 
     <main class="my-neightbour-totoro-content">
       <div class="movie-content-container movie-title-container">
@@ -27,13 +31,16 @@
 </template>
 
 <script setup lang="ts">
-import Button from '../components/Button.vue';
 import { gsap } from 'gsap';
-import { CustomEase } from 'gsap/CustomEase';
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { CustomEase } from 'gsap/CustomEase';
+import { useWindowSize } from '@vueuse/core';
+import Button from '../components/Button.vue';
+import Overlay from '../components/Overlay.vue';
 
 const route = useRoute();
+const { width, height } = useWindowSize();
 
 const props = defineProps({
   showingMenu: {}
@@ -140,26 +147,33 @@ onMounted(() => {
   background-size: cover
   overflow: hidden
 
-  &:before
-    content: ''
-    position: absolute
-    inset: -10px
-    z-index: -1
-    display: block
-    background: url('../assets/images/totoro-landscape.jpg') no-repeat center
-    background-size: cover
-    filter: blur(6px)
+  .my-neightbour-totoro-background
 
-  .overlay
+    &:before
+      content: ''
+      position: absolute
+      inset: -10px
+      z-index: -1
+      display: block
+      background: url('../assets/images/totoro-landscape.jpg') no-repeat center
+      background-size: cover
+      filter: blur(6px)
+
+  .my-neightbour-totoro-overlay
     position: absolute
-    inset: 0
-    background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(25, 25, 25, .5) 50%)
+    top: 0
+    bottom: 0
+    left: -100%
+    right: 100%
+    width: 300vw
     z-index: -1
+    border: 2px solid red
 
   .my-neightbour-totoro-content
     display: flex
     justify-content: space-between
     flex: 1
+    opacity: 0
     border: 0px solid
 
     .movie-content-container

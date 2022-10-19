@@ -23,25 +23,45 @@ const update = (value: boolean) => {
   showingMenu.value = value;
 }
 
-const enter = (element: any, done: any) => {
-  console.log(element);
-
+/*const enter = (element: any, done: any) => {
   element.style.position = 'absolute';
   element.style.inset = 0;
-}
 
-const leave = (element: any, done: any) => {
-  const backgroundGradient1 = 'linear-gradient(115deg, rgba(232, 97, 94, 0) 49.95%, rgba(232, 97, 94, .5) 50%)';
-  const backgroundGradient2 = 'linear-gradient(90deg, rgba(232, 97, 94, 0) 0%, rgba(232, 97, 94, .5) 0%)';
-  const backgroundGradient3 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 100%, rgba(232, 97, 94, 0) 100%)';
-  const backgroundGradient4 = 'linear-gradient(90deg, rgba(232, 97, 94, .5) 0%, rgba(232, 97, 94, 0) 0%)';
+  // On set l'overlay à l'extérieur de la page
+  gsap.set(
+    element.children[1].children[0].children[0],
+    {
+      attr: { points: `
+        ${window.innerWidth * 2 + window.innerWidth * 0.4},0
+        ${window.innerWidth * 3},0
+        ${window.innerWidth * 2 + window.innerWidth * 0.65},${window.innerHeight}
+        ${window.innerWidth * 2},${window.innerHeight}
+      `}
+    }
+  );
 
-  console.log(element.children[1]);
+  // Animation de l'overlay pour qu'il entre dans la page
+  gsap.to(
+    element.children[1].children[0].children[0],
+    {
+      attr: { points: `
+        ${window.innerWidth + window.innerWidth * 0.65},0
+        ${window.innerWidth * 2 + window.innerWidth * 0.65 - window.innerWidth * 0.35},0
+        ${window.innerWidth * 2},${window.innerHeight}
+        ${window.innerWidth + window.innerWidth * 0.35},${window.innerHeight}
+      `},
+      delay: 1.5,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );
+}*/
 
+/*const leave = (element: any, done: any) => {
   element.style.zIndex = 1;
 
-  // On cache le personnage au 1er plan
-  gsap.to(element.children[1], {
+  // On cache le personnage du 1er plan
+  gsap.to(element.children[2], {
     opacity: 0,
     scale: .98,
     duration: .3,
@@ -51,38 +71,75 @@ const leave = (element: any, done: any) => {
   // On créer la timeline
   let timeline = gsap.timeline({ delay: .3, onComplete: done });
 
-  // On set l'overlay à son état de base
-  timeline.set(element.children[0], { background: backgroundGradient1 });
-
+  // Animation de l'overlay en full screen
   timeline.to(
-    element.children[0],
+    element.children[1].children[0].children[0],
     {
-      background: backgroundGradient2,
+      attr: { points: `
+        ${window.innerWidth},0
+        ${window.innerWidth * 2 + window.innerWidth * 0.65 - window.innerWidth * 0.35},0
+        ${window.innerWidth * 2},${window.innerHeight}
+        ${window.innerWidth * 0.7},${window.innerHeight}
+      `},
       duration: .6,
       ease: 'power3.inOut'
     }
   );
 
-  timeline.set(element.children[0], { background: backgroundGradient3 });
-
+  // Animation de l'overlay pour qu'il sorte de la page
   timeline.to(
-    element.children[0],
+    element.children[1].children[0].children[0],
     {
-      background: backgroundGradient4,
+      attr: { points: `
+        ${window.innerWidth * 0.35},0
+        ${window.innerWidth},0
+        ${window.innerWidth * 0.7},${window.innerHeight}
+        0,${window.innerHeight}
+      `},
       duration: .6,
       ease: 'power3.inOut'
     }
   );
 
+  // Animation du fond pour qu'il sorte de la fenêtre
   timeline.to(
-    element,
+    element.children[0],
     {
       opacity: 0,
       duration: .6,
       ease: 'power3.inOut'
     }
   );
-}
+
+  /!*timeline.to(
+    element.children[0],
+    {
+      background: backgroundGradient2,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );*!/
+
+  // timeline.set(element.children[0], { background: backgroundGradient3 });
+
+  /!*timeline.to(
+    element.children[0],
+    {
+      background: backgroundGradient4,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );*!/
+
+  /!*timeline.to(
+    element,
+    {
+      opacity: 0,
+      duration: .6,
+      ease: 'power3.inOut'
+    }
+  );*!/
+}*/
 
 // Change le thème de couleur si besoin
 const updateColorScheme = () => {

@@ -1,6 +1,10 @@
 <template>
   <section class="spirited-away">
-    <div class="overlay" />
+    <div class="spirited-away-background"/>
+
+    <div class="spirited-away-overlay">
+      <Overlay :screenWidth="width" :screenHeight="height" color="#E8615E"/>
+    </div>
 
     <main class="spirited-away-content">
       <div class="movie-content-container movie-title-container">
@@ -8,7 +12,7 @@
           <time class="movie-creation-date">2001</time>
           <h1 class="movie-title">Spirited <br/>Away</h1>
           <div class="movie-button-container">
-            <Button label="Watch trailer" iconName="play" />
+            <Button label="Watch trailer" iconName="play"/>
             <a class="imdb-link" href="">IMDB</a>
           </div>
         </div>
@@ -28,12 +32,15 @@
 
 <script setup lang="ts">
 import { gsap } from 'gsap';
-import { CustomEase } from 'gsap/CustomEase';
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { CustomEase } from 'gsap/CustomEase';
+import { useWindowSize } from '@vueuse/core';
 import Button from '../components/Button.vue';
+import Overlay from '../components/Overlay.vue';
 
 const route = useRoute();
+const { width, height } = useWindowSize();
 
 const props = defineProps({
   showingMenu: {}
@@ -141,21 +148,27 @@ onMounted(() => {
   background-size: cover
   overflow: hidden
 
-  &:before
-    content: ''
-    position: absolute
-    inset: -10px
-    z-index: -1
-    display: block
-    background: url('../assets/images/spirited-away-landscape.jpeg') no-repeat center
-    background-size: cover
-    filter: blur(6px)
+  .spirited-away-background
 
-  .overlay
+    &:before
+      content: ''
+      position: absolute
+      inset: -10px
+      z-index: -1
+      display: block
+      background: url('../assets/images/spirited-away-landscape.jpeg') no-repeat center
+      background-size: cover
+      filter: blur(6px)
+
+  .spirited-away-overlay
     position: absolute
-    inset: 0
-    background: linear-gradient(115deg, rgba(0, 0, 0, 0) 49.95%, rgba(232, 97, 94, .5) 50%)
+    top: 0
+    bottom: 0
+    left: -100%
+    right: 100%
+    width: 300vw
     z-index: -1
+    border: 2px solid red
 
   .spirited-away-content
     display: flex
