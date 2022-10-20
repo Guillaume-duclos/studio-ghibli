@@ -23,7 +23,9 @@ const update = (value: boolean) => {
   showingMenu.value = value;
 }
 
-/*const enter = (element: any, done: any) => {
+const enter = (element: any, done: any) => {
+  if (route.meta.pageType === 'test') return;
+
   element.style.position = 'absolute';
   element.style.inset = 0;
 
@@ -40,8 +42,22 @@ const update = (value: boolean) => {
     }
   );
 
+  // On créer la timeline
+  let timeline = gsap.timeline({ delay: .3, onComplete: done });
+
+  // Apparition de du contenu de la page
+  timeline.to(
+    element.children[2],
+    {
+      scale: 1,
+      opacity: 1,
+      duration: 1,
+      ease: 'power3.inOut'
+    }
+  );
+
   // Animation de l'overlay pour qu'il entre dans la page
-  gsap.to(
+  timeline.to(
     element.children[1].children[0].children[0],
     {
       attr: { points: `
@@ -50,14 +66,15 @@ const update = (value: boolean) => {
         ${window.innerWidth * 2},${window.innerHeight}
         ${window.innerWidth + window.innerWidth * 0.35},${window.innerHeight}
       `},
-      delay: 1.5,
       duration: .6,
       ease: 'power3.inOut'
     }
   );
-}*/
+}
 
-/*const leave = (element: any, done: any) => {
+const leave = (element: any, done: any) => {
+  if (route.meta.pageType === 'test') return;
+
   element.style.zIndex = 1;
 
   // On cache le personnage du 1er plan
@@ -110,38 +127,9 @@ const update = (value: boolean) => {
       ease: 'power3.inOut'
     }
   );
+}
 
-  /!*timeline.to(
-    element.children[0],
-    {
-      background: backgroundGradient2,
-      duration: .6,
-      ease: 'power3.inOut'
-    }
-  );*!/
-
-  // timeline.set(element.children[0], { background: backgroundGradient3 });
-
-  /!*timeline.to(
-    element.children[0],
-    {
-      background: backgroundGradient4,
-      duration: .6,
-      ease: 'power3.inOut'
-    }
-  );*!/
-
-  /!*timeline.to(
-    element,
-    {
-      opacity: 0,
-      duration: .6,
-      ease: 'power3.inOut'
-    }
-  );*!/
-}*/
-
-// Change le thème de couleur si besoin
+// Change le thème de couleur en fonction de la page
 const updateColorScheme = () => {
   if (route.meta.theme === 'dark') {
     document.body.setAttribute('data-theme', 'dark');

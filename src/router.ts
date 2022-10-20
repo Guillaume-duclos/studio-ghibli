@@ -33,6 +33,9 @@ const routes = [
     path: '/Test',
     name: 'Test',
     component: Test,
+    meta: {
+      pageType: 'test'
+    }
   },
 ]
 

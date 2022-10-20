@@ -168,13 +168,13 @@ onMounted(() => {
     right: 100%
     width: 300vw
     z-index: -1
-    border: 2px solid red
 
   .spirited-away-content
     display: flex
     justify-content: space-between
     flex: 1
-    border: 0px solid
+    transform: scale(.9)
+    opacity: 0
 
     .movie-content-container
       display: flex
