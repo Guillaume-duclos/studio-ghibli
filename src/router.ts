@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import SpiritedAway from './views/SpiritedAway.vue';
 import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
 import Test from './views/Test.vue';
+import Test2 from './views/Test2.vue';
 
 const routes = [
   {
@@ -33,6 +34,14 @@ const routes = [
     path: '/Test',
     name: 'Test',
     component: Test,
+    meta: {
+      pageType: 'test'
+    }
+  },
+  {
+    path: '/Test2',
+    name: 'Test2',
+    component: Test2,
     meta: {
       pageType: 'test'
     }

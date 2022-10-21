@@ -1,6 +1,6 @@
-enum theme {
-  LIGHT = 'light',
-  DARK = 'dark'
+enum particuleShadowBlurDirection {
+  DOWN = 'DOWN',
+  UP = 'UP'
 }
 
-export default theme;
+export default particuleShadowBlurDirection;

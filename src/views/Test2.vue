@@ -3,7 +3,6 @@
     <div class="mouse-infos">
       <p>x: {{ x }}</p>
       <p>y: {{ y }}</p>
-      <p>angle: {{ getDropAngle }}</p>
     </div>
     <canvas ref='canvas' :width='width' :height='height'/>
   </div>
@@ -13,40 +12,45 @@
 import { computed, onMounted, ref } from 'vue';
 import { useWindowSize, useMouse } from '@vueuse/core';
 import { useRandomRange } from '../composables/randomRange';
+import ParticuleShadowBlurDirectionEnum from '../enums/particule-shadow-blur-direction.enum';
 
 const { width, height } = useWindowSize();
 const { x, y } = useMouse();
 
 const canvas = ref();
-const rainCount = 160;
-const drops: any[] = [];
+const particulesCount = 200;
+const particules: any[] = []
+const minParticuleSize: number = 6;
+const maxParticuleSize: number = 12;
+const minShadowBlur: number = 6;
+const maxShadowBlur: number = 14;
 let minXPosition: number;
 let maxXPosition: number;
+let minYPosition: number;
+let maxYPosition: number;
 let context: any;
 
 onMounted(() => {
   context = canvas.value.getContext('2d');
 
-  minXPosition = -canvas.value.width * 0.1;
-  maxXPosition = canvas.value.width + canvas.value.width * 0.1;
+  minXPosition = -20;
+  maxXPosition = canvas.value.width + 20;
+  minYPosition = -20;
+  maxYPosition = canvas.value.height + 20;
 
   init();
   animate();
 });
 
-// Calcule du sens des particules en fonction de la position du curseur
-const getDropAngle = computed(() => {
-  return parseFloat((Math.round((5 / (width.value / 2)) * (x.value - (width.value / 2)) * 100) / 100).toFixed(2));
-});
-
 // Initialisation des particules
 const init = () => {
-  for (let i = 0; i < rainCount; i++) {
-    drops.push({
+  for (let i = 0; i < particulesCount; i++) {
+    particules.push({
       x: useRandomRange(minXPosition, maxXPosition).result.value,
-      y: 0,
-      speed: Math.random() * 20 + 20,
-      height: useRandomRange(40, 80).result.value
+      y: useRandomRange(minYPosition, maxYPosition).result.value,
+      size: useRandomRange(minParticuleSize, maxParticuleSize).result.value,
+      shadowBlur: useRandomRange(minShadowBlur, maxShadowBlur).result.value,
+      shadowBlurDirection: useRandomRange(0, 1).result.value ? ParticuleShadowBlurDirectionEnum.DOWN : ParticuleShadowBlurDirectionEnum.UP
     });
   }
 };
@@ -55,22 +59,28 @@ const init = () => {
 const draw = () => {
   context.clearRect(0, 0, canvas.value.width, canvas.value.height);
 
-  for (let i = 0; i < drops.length; i++) {
-    // On dessine la nouvelle position de la goutte
+  for (let i = 0; i < particules.length; i++) {
+    // On dessine la nouvelle position de la particule
     context.beginPath();
-    context.moveTo(drops[i].x, drops[i].y);
-    context.lineTo(drops[i].x + getDropAngle.value, drops[i].y + drops[i].height);
-    context.fillStyle = 'round';
-    context.stroke();
+    context.arc(particules[i].x, particules[i].y, particules[i].size, 0, 2 * Math.PI);
+    context.fillStyle = '#FFDE94';
+    context.shadowColor = '#FFDE94';
+    context.shadowBlur = particules[i].shadowBlur;
+    context.closePath();
+    context.fill();
 
-    // On met à jour la position de la goutte
-    drops[i].x += getDropAngle.value;
-    drops[i].y += drops[i].speed;
+    // On vérifie la taille du shadow de la particule est inférieure ou supérieure aux niveaux voulus
+    if (particules[i].shadowBlur <= minShadowBlur) {
+      particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.UP;
+    } else if (particules[i].shadowBlur >= maxShadowBlur) {
+      particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.DOWN;
+    }
 
-    // Si la goutte sort du canvas, on recalcule sa nouvelle position
-    if (drops[i].x < minXPosition || drops[i].x > maxXPosition || drops[i].y > canvas.value.width) {
-      drops[i].x = useRandomRange(minXPosition, maxXPosition).result.value;
-      drops[i].y = 0;
+    // On met à jour la taille du shadow de la particule
+    if (particules[i].shadowBlurDirection === ParticuleShadowBlurDirectionEnum.DOWN) {
+      particules[i].shadowBlur -= 0.07;
+    } else {
+      particules[i].shadowBlur += 0.07;
     }
   }
 };
@@ -84,9 +94,7 @@ const animate = () => {
 
 <style scoped lang="sass">
 .test
-  //background: url('../assets/images/spirited-away-landscape.jpeg')
-  background-size: cover
-  background-repeat: no-repeat
+  background: #000000
   //filter: blur(6px)
 
   .mouse-infos

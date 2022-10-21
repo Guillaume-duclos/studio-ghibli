@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useWindowSize, useMouse } from '@vueuse/core';
+import { useRandomRange } from '../composables/randomRange';
 
 const { width, height } = useWindowSize();
 const { x, y } = useMouse();
@@ -42,18 +43,13 @@ const getDropAngle = computed(() => {
 const init = () => {
   for (let i = 0; i < rainCount; i++) {
     drops.push({
-      x: randomIntFromInterval(minXPosition, maxXPosition),
+      x: useRandomRange(minXPosition, maxXPosition).result.value,
       y: 0,
       speed: Math.random() * 20 + 20,
-      height: randomIntFromInterval(40, 80)
+      height: useRandomRange(40, 80).result.value
     });
   }
 };
-
-// Calcule un nombre aléatoire entre 2 valeurs
-const randomIntFromInterval = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 // On dessine les particules
 const draw = () => {
@@ -73,7 +69,7 @@ const draw = () => {
 
     // Si la goutte sort du canvas, on recalcule sa nouvelle position
     if (drops[i].x < minXPosition || drops[i].x > maxXPosition || drops[i].y > canvas.value.width) {
-      drops[i].x = randomIntFromInterval(minXPosition, maxXPosition);
+      drops[i].x = useRandomRange(minXPosition, maxXPosition).result.value;
       drops[i].y = 0;
     }
   }
@@ -88,9 +84,10 @@ const animate = () => {
 
 <style scoped lang="sass">
 .test
-  // background: url('../assets/images/spirited-away-landscape.jpeg')
+  //background: url('../assets/images/spirited-away-landscape.jpeg')
   background-size: cover
   background-repeat: no-repeat
+  //filter: blur(6px)
 
   .mouse-infos
     position: absolute
