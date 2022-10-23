@@ -2,8 +2,15 @@
   <header>
     <h1>Studio Ghibli <Totoro /></h1>
 
-    <button @click="toggleShowingMenu" :class="{ activeMenu: showMenu}">
-      <span :class="{ open: showMenu }" />
+    <button @click="toggleShowingMenu" :class="{ 'active-menu': showMenu}">
+      <span class="burger">
+        <span/>
+      </span>
+
+      <span class="exit">
+        <span/>
+        <span/>
+      </span>
     </button>
 
     <nav class="menu" :class="{ 'menu-active': showMenu }">
@@ -23,7 +30,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { gsap } from 'gsap';
 import Totoro from './Totoro.vue';
 
 const emit = defineEmits(['showMenu']);
@@ -45,27 +51,11 @@ const menuContent = ref([
 
 const toggleShowingMenu = () => {
   showMenu.value = !showMenu.value;
-  emit('showMenu', showMenu.value);
 
-  const timeline = gsap.timeline({});
-
-  if (showMenu.value) {
-    menuContent.value.forEach((item, index) => {
-      timeline.to(`.menu-item-${index}`, {
-        opacity: 1,
-        scale: 1,
-        duration: .1,
-        ease: 'power3.inOut'
-      });
-    });
-  } else {
-    gsap.to('.menu-item', {
-      opacity: 0,
-      scale: .97,
-      duration: .2,
-      ease: 'power3.inOut'
-    });
-  }
+  emit('showMenu', {
+    show: showMenu.value,
+    menuContent: menuContent.value
+  });
 }
 </script>
 
@@ -96,13 +86,31 @@ header
     border: none
     background: none
 
-    span
-      display: block
-      width: 100%
-      height: 3px
-      border-radius: 2px
-      background-color: var(--text)
-      transition: background-color .3s ease-in-out
+    &.active-menu
+
+      .burger
+        opacity: 0
+
+      .exit
+        opacity: 1
+
+    .burger, .exit
+      // transition: opacity .2s ease-in-out
+      position: absolute
+      height: 100%
+      inset: 0
+
+    .burger
+      display: flex
+      align-items: center
+
+      span
+        display: block
+        width: 100%
+        height: 3px
+        border-radius: 2px
+        background-color: var(--text)
+        transition: background-color .3s ease-in-out
 
       &:before, &:after
         content: ''
@@ -116,61 +124,28 @@ header
 
       &:before
         top: 0
-        animation: .2s ease-in forwards resetFirstElement
 
       &:after
         bottom: 0
-        animation: .2s ease-in forwards resetLastElement
 
-      &.open
-        background-color: transparent
-        transition: background-color .2s cubic-bezier(.8, 0, .58, 1)
-
-        &:before
-          top: 9px
-          transition-delay: 0s
-          animation: .2s ease-in .2s forwards rotateFirstElement
-
-        &:after
-          bottom: 9px
-          transition-delay: 0s
-          animation: .2s ease-in .2s forwards rotateLastElement
-
-    &.activeMenu
+    .exit
+      opacity: 0
 
       span
+        position: absolute
+        display: block
+        width: 100%
+        height: 3px
+        top: 8px
+        border-radius: 2px
+        background-color: var(--text)
+        transition: background-color .3s ease-in-out
 
-        &:before
-          transition: top .2s cubic-bezier(.8, 0, .58, 1)
-          transition-delay: .2s
+        &:first-child
+          transform: rotate(45deg)
 
-        &:after
-          transition: bottom .2s cubic-bezier(.8, 0, .58, 1)
-          transition-delay: .2s
-
-    @keyframes rotateFirstElement
-      from
-        transform: rotate(0)
-      to
-        transform: rotate(45deg)
-
-    @keyframes rotateLastElement
-      from
-        transform: rotate(0)
-      to
-        transform: rotate(-45deg)
-
-    @keyframes resetFirstElement
-      from
-        transform: rotate(45deg)
-      to
-        transform: rotate(0)
-
-    @keyframes resetLastElement
-      from
-        transform: rotate(-45deg)
-      to
-        transform: rotate(0)
+        &:last-child
+          transform: rotate(-45deg)
 
   .menu
     position: fixed
@@ -181,7 +156,6 @@ header
     left: 10%
     right: 0
     bottom: 106px
-    border: 0px solid red
 
     &.menu-active
       visibility: visible
@@ -197,17 +171,14 @@ header
       margin: 0
       padding: 0
       list-style-type: none
-      border: 0px solid red
 
       li
         font-family: 'Cormorant Garamond', sans-serif
         font-size: 28px
-        opacity: 0
         margin-top: 0
-        transform: scale(.97)
-        transition: .3s cubic-bezier(.8, 0, .25, 1)
+        opacity: 0
+        transform: scale(.94)
         transform-origin: 0 0
-        border: 0px solid
         cursor: pointer
 
 </style>

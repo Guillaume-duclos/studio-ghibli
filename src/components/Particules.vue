@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useWindowSize, useMouse } from '@vueuse/core';
 import { useRandomRange } from '../composables/randomRange';
 import ParticuleShadowBlurDirectionEnum from '../enums/particule-shadow-blur-direction.enum';
@@ -20,10 +20,11 @@ const { x, y } = useMouse();
 const canvas = ref();
 const particulesCount = 200;
 const particules: any[] = []
-const minParticuleSize: number = 6;
-const maxParticuleSize: number = 12;
+const minParticuleRadius: number = 6;
+const maxParticuleRadius: number = 12;
 const minShadowBlur: number = 6;
-const maxShadowBlur: number = 14;
+const maxShadowBlur: number = 12;
+const density = 2;
 let minXPosition: number;
 let maxXPosition: number;
 let minYPosition: number;
@@ -48,7 +49,9 @@ const init = () => {
     particules.push({
       x: useRandomRange(minXPosition, maxXPosition).result.value,
       y: useRandomRange(minYPosition, maxYPosition).result.value,
-      size: useRandomRange(minParticuleSize, maxParticuleSize).result.value,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5,
+      radius: useRandomRange(minParticuleRadius, maxParticuleRadius).result.value,
       shadowBlur: useRandomRange(minShadowBlur, maxShadowBlur).result.value,
       shadowBlurDirection: useRandomRange(0, 1).result.value ? ParticuleShadowBlurDirectionEnum.DOWN : ParticuleShadowBlurDirectionEnum.UP
     });
@@ -62,26 +65,41 @@ const draw = () => {
   for (let i = 0; i < particules.length; i++) {
     // On dessine la nouvelle position de la particule
     context.beginPath();
-    context.arc(particules[i].x, particules[i].y, particules[i].size, 0, 2 * Math.PI);
+    context.arc(particules[i].x, particules[i].y, particules[i].radius, 0, 2 * Math.PI);
     context.fillStyle = '#FFDE94';
     context.shadowColor = '#FFDE94';
-    context.shadowBlur = particules[i].shadowBlur;
+    context.shadowBlur = particules[i].radius;
     context.closePath();
     context.fill();
 
-    // On vérifie la taille du shadow de la particule est inférieure ou supérieure aux niveaux voulus
-    if (particules[i].shadowBlur <= minShadowBlur) {
+    // On vérifie si la taille du shadow de la particule est inférieure ou supérieure aux niveaux voulus
+    if (particules[i].radius <= minParticuleRadius) {
       particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.UP;
-    } else if (particules[i].shadowBlur >= maxShadowBlur) {
+    } else if (particules[i].radius >= maxParticuleRadius) {
       particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.DOWN;
     }
 
     // On met à jour la taille du shadow de la particule
     if (particules[i].shadowBlurDirection === ParticuleShadowBlurDirectionEnum.DOWN) {
-      particules[i].shadowBlur -= 0.07;
+      particules[i].radius -= 0.01;
+      // particules[i].shadowBlur -= 0.07;
     } else {
-      particules[i].shadowBlur += 0.07;
+      particules[i].radius += 0.01;
+      // particules[i].shadowBlur += 0.07;
     }
+
+    // On vérifie si la particule sort de l'écran sur l'axe horizontal
+    if (particules[i].x + (particules[i].radius * 4) < 0 || particules[i].x - (particules[i].radius * 4) > canvas.value.width) {
+      particules[i].dx = -particules[i].dx;
+    }
+
+    // On vérifie si la particule sort de l'écran sur l'axe vertical
+    if (particules[i].y + (particules[i].radius * 4) < 0 || particules[i].y - (particules[i].radius * 4) > canvas.value.height) {
+      particules[i].dy = -particules[i].dy;
+    }
+
+    particules[i].x += particules[i].dx;
+    particules[i].y += particules[i].dy;
   }
 };
 

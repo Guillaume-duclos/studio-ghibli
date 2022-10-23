@@ -1,10 +1,5 @@
 <template>
-  <div class="test">
-    <div class="mouse-infos">
-      <p>x: {{ x }}</p>
-      <p>y: {{ y }}</p>
-      <p>angle: {{ getDropAngle }}</p>
-    </div>
+  <div class="container">
     <canvas ref='canvas' :width='width' :height='height'/>
   </div>
 </template>
@@ -15,18 +10,20 @@ import { useWindowSize, useMouse } from '@vueuse/core';
 import { useRandomRange } from '../composables/randomRange';
 
 const { width, height } = useWindowSize();
-const { x, y } = useMouse();
+const { x } = useMouse();
 
 const canvas = ref();
-const rainCount = 160;
+const rainCount = 200;
 const drops: any[] = [];
 let minXPosition: number;
 let maxXPosition: number;
 let context: any;
 
 onMounted(() => {
+  // Récupération du context du canvas
   context = canvas.value.getContext('2d');
 
+  // On set les positions maximales des particules
   minXPosition = -canvas.value.width * 0.1;
   maxXPosition = canvas.value.width + canvas.value.width * 0.1;
 
@@ -36,7 +33,7 @@ onMounted(() => {
 
 // Calcule du sens des particules en fonction de la position du curseur
 const getDropAngle = computed(() => {
-  return parseFloat((Math.round((5 / (width.value / 2)) * (x.value - (width.value / 2)) * 100) / 100).toFixed(2));
+  return parseFloat((Math.round((8 / (width.value / 2)) * (x.value - (width.value / 2)) * 100) / 100).toFixed(2));
 });
 
 // Initialisation des particules
@@ -46,7 +43,7 @@ const init = () => {
       x: useRandomRange(minXPosition, maxXPosition).result.value,
       y: 0,
       speed: Math.random() * 20 + 20,
-      height: useRandomRange(40, 80).result.value
+      height: useRandomRange(50, 100).result.value
     });
   }
 };
@@ -60,7 +57,7 @@ const draw = () => {
     context.beginPath();
     context.moveTo(drops[i].x, drops[i].y);
     context.lineTo(drops[i].x + getDropAngle.value, drops[i].y + drops[i].height);
-    context.fillStyle = 'round';
+    context.strokeStyle = '#FFFFFF';
     context.stroke();
 
     // On met à jour la position de la goutte
@@ -83,22 +80,14 @@ const animate = () => {
 </script>
 
 <style scoped lang="sass">
-.test
-  //background: url('../assets/images/spirited-away-landscape.jpeg')
+.container
+  content: ''
+  position: absolute
+  inset: -10px
+  z-index: -1
+  display: block
+  background: url('../assets/images/spirited-away-landscape.jpeg') no-repeat center
   background-size: cover
-  background-repeat: no-repeat
-  //filter: blur(6px)
+  filter: blur(6px)
 
-  .mouse-infos
-    position: absolute
-    top: 0
-    right: 0
-    padding: 10px
-    width: 120px
-    background-color: #CCCCCC
-    color: #000000
-    z-index: 20
-
-    p
-      margin: 0
 </style>

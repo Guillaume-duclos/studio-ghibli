@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import SpiritedAway from './views/SpiritedAway.vue';
 import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
-import Test from './views/Test.vue';
-import Test2 from './views/Test2.vue';
+import Test from './components/Rain.vue';
+import Test2 from './components/Particules.vue';
 
 const routes = [
   {

@@ -1,5 +1,5 @@
 <template>
-  <TopNavigation class="top-navigation" @showMenu="update" />
+  <TopNavigation class="top-navigation" @showMenu="displayMenu" />
   <router-view v-slot="{ Component }">
     <transition name="slide" v-on:enter="enter" v-on:leave="leave">
       <component :is="Component" :showingMenu="showingMenu" />
@@ -12,6 +12,7 @@
 import { gsap } from 'gsap';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { CustomEase } from 'gsap/CustomEase';
 import BottomNavigation from './components/BottomNavigation.vue';
 import TopNavigation from './components/TopNavigation.vue';
 
@@ -19,10 +20,7 @@ const route = useRoute();
 
 const showingMenu = ref(false);
 
-const update = (value: boolean) => {
-  showingMenu.value = value;
-}
-
+// Animation de la page qui entre à l'écran
 const enter = (element: any, done: any) => {
   if (route.meta.pageType === 'test') return;
 
@@ -45,7 +43,7 @@ const enter = (element: any, done: any) => {
   // On créer la timeline
   let timeline = gsap.timeline({ delay: .3, onComplete: done });
 
-  // Apparition de du contenu de la page
+  // Apparition du contenu de la page
   timeline.to(
     element.children[2],
     {
@@ -72,6 +70,7 @@ const enter = (element: any, done: any) => {
   );
 }
 
+// Animation de la page qui sort de l'écran
 const leave = (element: any, done: any) => {
   if (route.meta.pageType === 'test') return;
 
@@ -128,6 +127,75 @@ const leave = (element: any, done: any) => {
     }
   );
 }
+
+// Affichage du menu
+const displayMenu = (value: any) => {
+  if (value.show) {
+    // On créer la timeline
+    let timeline = gsap.timeline({});
+
+    // On cache le contenu de la page
+    timeline.to('.page-content', {
+      opacity: 0,
+      scale: .98,
+      duration: .3,
+      ease: 'power3.inOut'
+    });
+
+    // On affiche l'overlay sur toute la page
+    timeline.to('.page-overlay svg polygon', {
+      attr: { points: `
+        ${window.innerWidth},0
+        ${window.innerWidth * 2 + window.innerWidth * 0.65 - window.innerWidth * 0.35},0
+        ${window.innerWidth * 2},${window.innerHeight}
+        ${window.innerWidth * 0.7},${window.innerHeight}
+      `},
+      duration: .6,
+      ease: 'power3.inOut'
+    });
+
+    // On affiche les items du menu
+    value.menuContent.forEach((item: any, index: number) => {
+      timeline.to(`.menu-item-${index}`, {
+        opacity: 1,
+        scale: 1,
+        duration: .1,
+        ease: CustomEase.create('cubic', '.8, 0, .25, 1')
+      });
+    });
+  } else {
+    // On créer la timeline
+    let timeline = gsap.timeline();
+
+    // On cache les items du menu
+    timeline.to('.menu-item', {
+      opacity: 0,
+      scale: .97,
+      duration: .3,
+      ease: 'power3.inOut'
+    });
+
+    // On affiche l'overlay sur toute la page
+    timeline.to('.page-overlay svg polygon', {
+      attr: { points: `
+        ${window.innerWidth + window.innerWidth * 0.65},0
+        ${window.innerWidth * 2 + window.innerWidth * 0.65 - window.innerWidth * 0.35},0
+        ${window.innerWidth * 2},${window.innerHeight}
+        ${window.innerWidth + window.innerWidth * 0.35},${window.innerHeight}
+      `},
+      duration: .6,
+      ease: 'power3.inOut'
+    });
+
+    // On cache le contenu de la page
+    timeline.to('.page-content', {
+      opacity: 1,
+      scale: 1,
+      duration: .3,
+      ease: CustomEase.create('cubic', '.8, 0, .25, 1')
+    });
+  }
+};
 
 // Change le thème de couleur en fonction de la page
 const updateColorScheme = () => {
