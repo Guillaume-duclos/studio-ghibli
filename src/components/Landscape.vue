@@ -31,8 +31,8 @@ onMounted(() => {
   // On set la densité de particules présent dans la page en fonction de la taille de la fenêtre
   rainCount = canvas.value.width * canvas.value.height / (density * 100);
 
-  init();
-  animate();
+  // init();
+  // animate();
 });
 
 // Calcule du sens des particules en fonction de la position du curseur
@@ -90,7 +90,7 @@ const animate = () => {
   inset: -10px
   z-index: -1
   display: block
-  background: url('../assets/images/totoro-landscape.jpg') no-repeat center
+  background: url('../assets/images/spirited-away-landscape.jpeg') no-repeat center
   background-size: cover
   filter: blur(6px)
 

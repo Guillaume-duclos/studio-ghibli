@@ -1,6 +1,8 @@
 <template>
   <header>
-    <h1>Studio Ghibli <Totoro /></h1>
+    <router-link to="SpiritedAway">
+      <h1>Studio Ghibli <Totoro /></h1>
+    </router-link>
 
     <button @click="toggleShowingMenu" :class="{ 'active-menu': showMenu}">
       <span class="burger">
@@ -67,6 +69,10 @@ header
   align-items: center
   justify-content: space-between
   z-index: 10
+
+  a
+    color: unset
+    text-decoration: none
 
   h1
     margin: 0

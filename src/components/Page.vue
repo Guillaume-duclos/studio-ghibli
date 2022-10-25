@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <slot/>
+    <slot name="background"/>
 
     <div class="page-overlay">
       <Overlay :screenWidth="width" :screenHeight="height" :color="props.overlayColor"/>
@@ -10,7 +10,9 @@
       <div class="movie-content-container movie-title-container">
         <div class="movie-title-content">
           <time class="movie-creation-date">{{ props.year }}</time>
-          <h1 class="movie-title">{{ props.title }}</h1>
+          <h1 class="movie-title">
+            <slot name="title"/>
+          </h1>
           <div class="movie-button-container">
             <Button label="Watch trailer" iconName="play"/>
             <a class="imdb-link" :href="props.link">IMDB</a>
@@ -38,10 +40,8 @@ import { CustomEase } from 'gsap/CustomEase';
 import { useWindowSize } from '@vueuse/core';
 import Button from './Button.vue';
 import Overlay from './Overlay.vue';
-import Rain from '../components/Rain.vue';
 
 const props = defineProps({
-  title: String,
   year: Number,
   illustration: String,
   overlayColor: String,

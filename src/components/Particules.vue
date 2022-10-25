@@ -12,24 +12,21 @@
 import { onMounted, ref } from 'vue';
 import { useWindowSize, useMouse } from '@vueuse/core';
 import { useRandomRange } from '../composables/randomRange';
-import ParticuleShadowBlurDirectionEnum from '../enums/particule-shadow-blur-direction.enum';
 
 const { width, height } = useWindowSize();
 const { x, y } = useMouse();
 
 const canvas = ref();
-const particulesCount = 200;
 const particules: any[] = []
 const minParticuleRadius: number = 6;
 const maxParticuleRadius: number = 12;
-const minShadowBlur: number = 6;
-const maxShadowBlur: number = 12;
-const density = 2;
+const density = 20;
 let minXPosition: number;
 let maxXPosition: number;
 let minYPosition: number;
 let maxYPosition: number;
 let context: any;
+let particulesCount: number;
 
 onMounted(() => {
   context = canvas.value.getContext('2d');
@@ -38,6 +35,9 @@ onMounted(() => {
   maxXPosition = canvas.value.width + 20;
   minYPosition = -20;
   maxYPosition = canvas.value.height + 20;
+
+  // On set la densité de particules présent dans la page en fonction de la taille de la fenêtre
+  particulesCount = canvas.value.width * canvas.value.height / (density * 100);
 
   init();
   animate();
@@ -52,8 +52,6 @@ const init = () => {
       dx: (Math.random() - 0.5) * 0.5,
       dy: (Math.random() - 0.5) * 0.5,
       radius: useRandomRange(minParticuleRadius, maxParticuleRadius).result.value,
-      shadowBlur: useRandomRange(minShadowBlur, maxShadowBlur).result.value,
-      shadowBlurDirection: useRandomRange(0, 1).result.value ? ParticuleShadowBlurDirectionEnum.DOWN : ParticuleShadowBlurDirectionEnum.UP
     });
   }
 };
@@ -65,28 +63,15 @@ const draw = () => {
   for (let i = 0; i < particules.length; i++) {
     // On dessine la nouvelle position de la particule
     context.beginPath();
-    context.arc(particules[i].x, particules[i].y, particules[i].radius, 0, 2 * Math.PI);
+    context.arc(particules[i].x, particules[i].y, Math.abs(Math.sin(particules[i].radius)) * 5 + 5, 0, 2 * Math.PI);
     context.fillStyle = '#FFDE94';
     context.shadowColor = '#FFDE94';
-    context.shadowBlur = particules[i].radius;
+    context.shadowBlur = Math.abs(Math.sin(particules[i].radius)) * 5 + 5;
     context.closePath();
     context.fill();
 
-    // On vérifie si la taille du shadow de la particule est inférieure ou supérieure aux niveaux voulus
-    if (particules[i].radius <= minParticuleRadius) {
-      particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.UP;
-    } else if (particules[i].radius >= maxParticuleRadius) {
-      particules[i].shadowBlurDirection = ParticuleShadowBlurDirectionEnum.DOWN;
-    }
-
-    // On met à jour la taille du shadow de la particule
-    if (particules[i].shadowBlurDirection === ParticuleShadowBlurDirectionEnum.DOWN) {
-      particules[i].radius -= 0.01;
-      // particules[i].shadowBlur -= 0.07;
-    } else {
-      particules[i].radius += 0.01;
-      // particules[i].shadowBlur += 0.07;
-    }
+    // On update le radius
+    particules[i].radius += 0.005;
 
     // On vérifie si la particule sort de l'écran sur l'axe horizontal
     if (particules[i].x + (particules[i].radius * 4) < 0 || particules[i].x - (particules[i].radius * 4) > canvas.value.width) {
