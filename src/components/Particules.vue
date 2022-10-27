@@ -1,9 +1,5 @@
 <template>
-  <div class="test">
-    <div class="mouse-infos">
-      <p>x: {{ x }}</p>
-      <p>y: {{ y }}</p>
-    </div>
+  <div class="container">
     <canvas ref='canvas' :width='width' :height='height'/>
   </div>
 </template>
@@ -20,7 +16,8 @@ const canvas = ref();
 const particules: any[] = []
 const minParticuleRadius: number = 6;
 const maxParticuleRadius: number = 12;
-const density = 20;
+const density = 100;
+const colorPanel = ['#FFDE94', '#FD9B04', '#F4B400', '#F0A629'];
 let minXPosition: number;
 let maxXPosition: number;
 let minYPosition: number;
@@ -52,6 +49,8 @@ const init = () => {
       dx: (Math.random() - 0.5) * 0.5,
       dy: (Math.random() - 0.5) * 0.5,
       radius: useRandomRange(minParticuleRadius, maxParticuleRadius).result.value,
+      color: colorPanel[useRandomRange(0, colorPanel.length - 1).result.value],
+      shadowColor: colorPanel[useRandomRange(0, colorPanel.length - 1).result.value],
     });
   }
 };
@@ -64,8 +63,8 @@ const draw = () => {
     // On dessine la nouvelle position de la particule
     context.beginPath();
     context.arc(particules[i].x, particules[i].y, Math.abs(Math.sin(particules[i].radius)) * 5 + 5, 0, 2 * Math.PI);
-    context.fillStyle = '#FFDE94';
-    context.shadowColor = '#FFDE94';
+    context.fillStyle = particules[i].color;
+    context.shadowColor = particules[i].shadowColor;
     context.shadowBlur = Math.abs(Math.sin(particules[i].radius)) * 5 + 5;
     context.closePath();
     context.fill();
@@ -96,20 +95,13 @@ const animate = () => {
 </script>
 
 <style scoped lang="sass">
-.test
-  background: #000000
-  //filter: blur(6px)
-
-  .mouse-infos
-    position: absolute
-    top: 0
-    right: 0
-    padding: 10px
-    width: 120px
-    background-color: #CCCCCC
-    color: #000000
-    z-index: 20
-
-    p
-      margin: 0
+.container
+  content: ''
+  position: absolute
+  inset: -10px
+  z-index: -1
+  display: block
+  background: url('../assets/images/grave-of-the-fireflies-landscape.png') no-repeat center
+  background-size: cover
+  filter: blur(6px)
 </style>

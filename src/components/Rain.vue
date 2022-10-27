@@ -20,6 +20,10 @@ let maxXPosition: number;
 let context: any;
 let rainCount: number;
 
+let thunderstormTemp = 0;
+let thunderstormTime = Date.now() + Math.random() * 4000;
+let activeThunderstorm = false;
+
 onMounted(() => {
   // Récupération du context du canvas
   context = canvas.value.getContext('2d');
@@ -45,7 +49,7 @@ const init = () => {
   for (let i = 0; i < rainCount; i++) {
     drops.push({
       x: useRandomRange(minXPosition, maxXPosition).result.value,
-      y: 0,
+      y: useRandomRange(0, canvas.value.height).result.value,
       speed: Math.random() * 20 + 20,
       height: useRandomRange(50, 100).result.value
     });
@@ -56,6 +60,34 @@ const init = () => {
 const draw = () => {
   context.clearRect(0, 0, canvas.value.width, canvas.value.height);
 
+  if (Date.now() > thunderstormTime) {
+    activeThunderstorm = true;
+  }
+
+  if (activeThunderstorm) {
+    thunderstormTemp++;
+
+    let light;
+
+    if (thunderstormTemp < 5 + Math.random() * 10) {
+      light = thunderstormTemp / 30;
+    } else {
+      light = (thunderstormTemp - 10) / 30;
+    }
+
+    if (thunderstormTemp > 20) {
+      thunderstormTemp = 0;
+      activeThunderstorm = false;
+      thunderstormTime = Date.now() + Math.random() * 8000 + 2000;
+    }
+
+    context.beginPath();
+    context.rect(0, 0, canvas.value.width, canvas.value.height);
+    context.fillStyle = `rgba(255, 255, 255, ${light})`;
+    context.fill();
+    context.closePath();
+  }
+
   for (let i = 0; i < drops.length; i++) {
     // On dessine la nouvelle position de la goutte
     context.beginPath();
@@ -63,6 +95,7 @@ const draw = () => {
     context.lineTo(drops[i].x + getDropAngle.value, drops[i].y + drops[i].height);
     context.strokeStyle = '#FFFFFF';
     context.stroke();
+    context.closePath();
 
     // On met à jour la position de la goutte
     drops[i].x += getDropAngle.value;

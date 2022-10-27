@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import SpiritedAway from './views/SpiritedAway.vue';
 import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
+import GraveOfTheFireflies from './views/GraveOfTheFireflies.vue';
 import Test from './components/Particules.vue';
 
 const routes = [
@@ -25,6 +26,14 @@ const routes = [
     path: '/MyNeightbourTotoro',
     name: 'MyNeightbourTotoro',
     component: MyNeightbourTotoro,
+    meta: {
+      theme: 'dark'
+    }
+  },
+  {
+    path: '/GraveOfTheFireflies',
+    name: 'GraveOfTheFireflies',
+    component: GraveOfTheFireflies,
     meta: {
       theme: 'dark'
     }
