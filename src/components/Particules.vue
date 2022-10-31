@@ -1,18 +1,19 @@
 <template>
   <div class="container">
+    <div class="background"/>
     <canvas ref='canvas' :width='width' :height='height'/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import { useWindowSize, useMouse } from '@vueuse/core';
 import { useRandomRange } from '../composables/randomRange';
 
 const { width, height } = useWindowSize();
-const { x, y } = useMouse();
-
+const { y } = useMouse();
 const canvas = ref();
+
 const particules: any[] = []
 const minParticuleRadius: number = 6;
 const maxParticuleRadius: number = 12;
@@ -38,6 +39,11 @@ onMounted(() => {
 
   init();
   animate();
+});
+
+// Calcule l'opacité de la couleur de fond en fonction de la position verticale de la souris
+const backgroundColor = computed(() => {
+  return `rgba(0, 0, 0, ${y.value * 100 / canvas.value.height / 1000 + 0.9})`;
 });
 
 // Initialisation des particules
@@ -66,8 +72,8 @@ const draw = () => {
     context.fillStyle = particules[i].color;
     context.shadowColor = particules[i].shadowColor;
     context.shadowBlur = Math.abs(Math.sin(particules[i].radius)) * 5 + 5;
-    context.closePath();
     context.fill();
+    context.closePath();
 
     // On update le radius
     particules[i].radius += 0.005;
@@ -96,12 +102,15 @@ const animate = () => {
 
 <style scoped lang="sass">
 .container
-  content: ''
   position: absolute
   inset: -10px
-  z-index: -1
-  display: block
-  background: url('../assets/images/grave-of-the-fireflies-landscape.png') no-repeat center
-  background-size: cover
+  background-color: v-bind(backgroundColor)
   filter: blur(6px)
+
+  .background
+    position: absolute
+    inset: 0
+    background: url('../assets/images/grave-of-the-fireflies-landscape.png') no-repeat bottom
+    background-size: cover
+
 </style>

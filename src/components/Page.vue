@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { CustomEase } from 'gsap/CustomEase';
 import { useWindowSize } from '@vueuse/core';
 import Button from './Button.vue';
@@ -50,7 +49,6 @@ const props = defineProps({
   author: String,
 });
 
-const route = useRoute();
 const { width, height } = useWindowSize();
 
 onMounted(() => {
@@ -72,6 +70,9 @@ onMounted(() => {
   background-size: cover
   overflow: hidden
 
+  ::selection
+    background: v-bind(overlayColor)
+
   .page-overlay
     position: absolute
     top: 0
@@ -79,7 +80,6 @@ onMounted(() => {
     left: -100%
     right: 100%
     width: 300vw
-    z-index: -1
 
   .page-content
     display: flex
