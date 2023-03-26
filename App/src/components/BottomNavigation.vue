@@ -56,6 +56,9 @@ footer
     span, img
       z-index: 1
 
+    span
+      font-weight: 600
+
     &:after
       content: ''
       position: absolute

@@ -115,8 +115,8 @@ onMounted(() => {
           font-weight: 600
 
           @media all and (min-width: 1441px)
-            font-size: 120px
-            line-height: 120px
+            font-size: calc(8000vw / 1018)
+            line-height: calc(8000vw / 1018)
 
         .movie-button-container
           display: flex
