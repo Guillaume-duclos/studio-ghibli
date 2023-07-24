@@ -1,6 +1,6 @@
 <template>
   <button class="button">
-    <img :src="`src/assets/icons/${iconName}.svg`" alt="Icon" />
+    <img :src="`./assets/icons/${iconName}.svg`" alt="Icon" />
     <p>{{ label }}</p>
   </button>
 </template>
