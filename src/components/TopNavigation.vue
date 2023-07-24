@@ -1,9 +1,11 @@
 <template>
   <header>
+    <!-- TITRE ET LOGO -->
     <router-link to="SpiritedAway">
       <h1>Studio Ghibli <Totoro /></h1>
     </router-link>
 
+    <!-- BOUTON D'OUVERTURE / FERMETURE -->
     <button @click="toggleShowingMenu" :class="{ 'active-menu': showMenu}">
       <span class="burger">
         <span/>
@@ -15,13 +17,16 @@
       </span>
     </button>
 
-    <nav class="menu" :class="{ 'menu-active': showMenu }">
+    <!-- LIENS -->
+    <nav class="menu">
+      <h2 class="menu-title">Movie list</h2>
+
       <ul ref="menu">
         <li
           v-for="(item, index) in menuContent"
           :key="`item-menu-${index}`"
-          class="menu-item"
           :class="`menu-item-${index}`"
+          class="menu-item"
         >
           {{ item.label }}
         </li>
@@ -39,7 +44,6 @@ const emit = defineEmits(['showMenu']);
 const showMenu = ref(false);
 const menu = ref('menu');
 const menuContent = ref([
-  { label: 'Home', isActive: false },
   { label: 'Spirited Away', isActive: false },
   { label: 'Castel In The Sky', isActive: false },
   { label: 'Princess Mononoke', isActive: false },
@@ -48,7 +52,6 @@ const menuContent = ref([
   { label: 'Princess Mononoke 3', isActive: false },
   { label: 'Princess Mononoke 4', isActive: false },
   { label: 'Princess Mononoke 5', isActive: false },
-  { label: 'Credit', isActive: false },
 ]);
 
 const toggleShowingMenu = () => {
@@ -154,17 +157,21 @@ header
           transform: rotate(-45deg)
 
   .menu
-    position: fixed
     display: flex
+    position: fixed
+    flex-direction: column
+    justify-content: center
+    align-items: self-start
     visibility: hidden
-    align-items: center
     top: 90px
     left: 10%
     right: 0
     bottom: 106px
 
-    &.menu-active
-      visibility: visible
+    .menu-title
+      margin-bottom: 40px
+      font-family: 'Nunito', sans-serif
+      font-weight: 700
 
     ul
       display: grid
@@ -180,7 +187,7 @@ header
 
       li
         font-family: 'Cormorant Garamond', sans-serif
-        font-size: 28px
+        font-size: calc(2400vw / 1018)
         margin-top: 0
         opacity: 0
         transform: scale(.94)

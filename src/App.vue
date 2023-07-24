@@ -130,9 +130,17 @@ const leave = (element: any, done: any) => {
 
 // Affichage du menu
 const displayMenu = (value: any) => {
+  // On créer la timeline
+  let timeline = gsap.timeline();
+
   if (value.show) {
-    // On créer la timeline
-    let timeline = gsap.timeline({});
+    // On set le style du menu
+    timeline.set('.menu', {
+        visibility: 'visible',
+        opacity: 1,
+        scale: 1,
+      },
+    );
 
     // On cache le contenu de la page
     timeline.to('.page-content', {
@@ -148,32 +156,51 @@ const displayMenu = (value: any) => {
         ${window.innerWidth},0
         ${window.innerWidth * 2 + window.innerWidth * 0.65 - window.innerWidth * 0.35},0
         ${window.innerWidth * 2},${window.innerHeight}
-        ${window.innerWidth * 0.7},${window.innerHeight}
+        ${window.innerWidth},${window.innerHeight}
       `},
       duration: .6,
       ease: 'power3.inOut'
     });
 
-    // On affiche les items du menu
-    value.menuContent.forEach((item: any, index: number) => {
-      timeline.to(`.menu-item-${index}`, {
-        opacity: 1,
-        scale: 1,
-        duration: .1,
-        ease: CustomEase.create('cubic', '.8, 0, .25, 1')
-      });
-    });
-  } else {
-    // On créer la timeline
-    let timeline = gsap.timeline();
-
-    // On cache les items du menu
-    timeline.to('.menu-item', {
+    // Affichage du titre du menu
+    timeline.fromTo('.menu-title', {
       opacity: 0,
       scale: .97,
+    }, {
+      opacity: 1,
+      scale: 1,
       duration: .3,
-      ease: 'power3.inOut'
+    }, 1);
+
+    // On affiche les items du menu
+    value.menuContent.forEach((item: any, index: number) => {
+      timeline.fromTo(`.menu-item-${index}`, {
+        opacity: 0,
+        scale: .97,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: (index + 1) / 4,
+        delay: (index + 1) / 24,
+        ease: CustomEase.create('cubic', '.2, .77, .27, 1')
+      }, 1);
     });
+  } else {
+    timeline.clear();
+
+    // On cache les items du menu
+    timeline.fromTo('.menu', {
+      opacity: 1,
+      scale: 1,
+      },
+      {
+        opacity: 0,
+        scale: .97,
+        duration: .3,
+        ease: CustomEase.create('cubic', '.2, .77, .27, 1')
+      }
+    );
 
     // On affiche l'overlay sur toute la page
     timeline.to('.page-overlay svg polygon', {
@@ -194,6 +221,8 @@ const displayMenu = (value: any) => {
       duration: .3,
       ease: CustomEase.create('cubic', '.8, 0, .25, 1')
     });
+
+    timeline.set('.menu', { visibility: 'hidden' })
   }
 };
 

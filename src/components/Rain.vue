@@ -19,7 +19,6 @@ let minXPosition: number;
 let maxXPosition: number;
 let context: any;
 let rainCount: number;
-
 let thunderstormTemp = 0;
 let thunderstormTime = Date.now() + Math.random() * 4000;
 let activeThunderstorm = false;
@@ -111,7 +110,7 @@ const draw = () => {
 
 // Animation du canvas
 const animate = () => {
-  draw();
+  if (canvas.value) draw();
   window.requestAnimationFrame(animate);
 };
 </script>

@@ -2,28 +2,30 @@
   <footer>
     <button v-on:click="previousPage">
       <img src="../assets/icons/arrow-left.svg" alt="Arrow left" />
-      <span>My Neightbour Totoro</span>
+      <span>{{ route.meta.previousPage }}</span>
     </button>
     <button v-on:click="nextPage">
-      <span>Castle In The Sky</span>
+      <span>{{ route.meta.nextPage }}</span>
       <img src="../assets/icons/arrow-right.svg" alt="Arrow right" />
     </button>
   </footer>
 </template>
 
 <script setup lang="ts">
-import router from '../router';
+import { RouteLocationRaw, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const props = defineProps({
+const route: RouteLocationRaw = useRoute();
+const router = useRouter();
 
-})
-
+// Redirige à la page précédente
 const previousPage = () => {
-  router.push('SpiritedAway');
+  router.push(route.meta.previousPage.replace(/\s+/g, ''));
 }
 
+// Redirige à la page suivante
 const nextPage = () => {
-  router.push('MyNeightbourTotoro');
+  router.push(route.meta.nextPage.replace(/\s+/g, ''));
 }
 </script>
 
@@ -53,6 +55,9 @@ footer
 
     span, img
       z-index: 1
+
+    span
+      font-weight: 600
 
     &:after
       content: ''

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 import SpiritedAway from './views/SpiritedAway.vue';
 import MyNeightbourTotoro from './views/MyNeightbourTotoro.vue';
@@ -11,7 +11,9 @@ const routes = [
     name: 'Home',
     component: SpiritedAway,
     meta: {
-      theme: 'light'
+      theme: 'light',
+      previousPage: 'Grave Of The Fire flies',
+      nextPage: 'My Neightbour Totoro'
     }
   },
   {
@@ -19,7 +21,9 @@ const routes = [
     name: 'SpiritedAway',
     component: SpiritedAway,
     meta: {
-      theme: 'light'
+      theme: 'light',
+      previousPage: 'Grave Of The Fireflies',
+      nextPage: 'My Neightbour Totoro'
     }
   },
   {
@@ -27,7 +31,9 @@ const routes = [
     name: 'MyNeightbourTotoro',
     component: MyNeightbourTotoro,
     meta: {
-      theme: 'dark'
+      theme: 'dark',
+      previousPage: 'Spirited Away',
+      nextPage: 'Grave Of The Fireflies'
     }
   },
   {
@@ -35,7 +41,9 @@ const routes = [
     name: 'GraveOfTheFireflies',
     component: GraveOfTheFireflies,
     meta: {
-      theme: 'dark'
+      theme: 'dark',
+      previousPage: 'My Neightbour Totoro',
+      nextPage: 'Spirited Away'
     }
   },
   {
@@ -49,7 +57,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 
